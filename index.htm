@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>Book store</title>
+</head>
+
+<body>
+    <h1>Book store, Vue3 version, async Axios</h1>
+    <div id="app">
+        <h2>All Books</h2>
+
+        <h3>List</h3>
+        <ul v-if="books">
+            <li v-for="book in books.slice(books.length-5,books.length)">
+                <!-- shows last 5 books -->
+                {{book.id}}, {{book.author}}: {{book.title}}, {{book.publisher}} {{ book.price}}
+            </li>
+        </ul>
+        <div v-else>No books</div>
+
+        <h3>Table (with Bootstrap decorations ....)</h3>
+        <div class="container">
+            <table class="table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Author</th>
+                        <th>Title</th>
+                        <th>Publisher</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tr v-for="book in books.slice(books.length-5,books.length)">
+                    <td>{{book.id}}</td>
+                    <td>{{book.author}}</td>
+                    <td>{{book.title}}</td>
+                    <td>{{book.publisher}}</td>
+                    <td>{{ book.price}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>Book by id</h2>
+        <input v-model="bookId" placeholder="id" type="number">
+        <button v-on:click="getBookById(bookId)" class="btn btn-primary">Get Book</button>
+        <div v-if="singleBook">{{ singleBook }}</div>
+        <div v-else>No such book</div>
+
+        <h2>Add book</h2>
+        <input v-model="addData.author" placeholder="author" type="text" />
+        <input v-model="addData.title" placeholder="title" type="text" />
+        <input v-model="addData.publisher" placeholder="publisher" type="text" />
+        <input v-model.number="addData.price" placeholder="price" type="number" />
+        <button v-on:click="addBook()" class="btn btn-success">Add</button>
+        <div>{{addMessage}}</div>
+
+        <h2>Delete book</h2>
+        <input v-model="idToDelete" placeholder="id" type="number">
+        <button v-on:click="deleteBookById(idToDelete)" class="btn btn-warning">Delete Book</button>
+        <div>{{deleteMessage}}</div>
+
+        <h2>Update book</h2>
+        <input v-model.number="idToUpdate" placeholder="id" type="number" />
+        <input v-model="updateData.author" placeholder="author" type="text" />
+        <input v-model="updateData.title" placeholder="title" type="text" />
+        <input v-model="updateData.publisher" placeholder="publisher" type="text" />
+        <input v-model.number="updateData.price" placeholder="price" type="number" />
+        <button v-on:click="updateBook(idToUpdate)" class="btn btn-success">Update</button>
+        <div>{{updateMessage}}</div>
+
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
